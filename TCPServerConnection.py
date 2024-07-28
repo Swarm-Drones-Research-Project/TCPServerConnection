@@ -1,12 +1,12 @@
 import socket
 import threading
 
-HOST = '192.168.1.10'  # Replace with your computer's IP address
+HOST = '192.168.1.10'  # Use ifconfig to determine IP address
 PORT1 = 12345          # First port number
 PORT2 = 54321          # Second port number
 
-connections = []       # List to keep track of client connections
-lock = threading.Lock() # A lock to synchronize access to the connections list
+connections = []
+lock = threading.Lock()
 
 def broadcast_message(message):
     with lock:
@@ -14,7 +14,7 @@ def broadcast_message(message):
             try:
                 conn.sendall(message.encode('utf-8'))
             except:
-                # If sending fails, close the connection
+                # Close the connection
                 conn.close()
                 connections.remove(conn)
 
@@ -38,7 +38,7 @@ def handle_client(conn, addr):
 
 def start_server(port):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-        s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)  # Allow reuse of the address
+        s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         s.bind((HOST, port))
         s.listen()
         print(f"Server listening on {HOST}:{port}")
@@ -52,7 +52,7 @@ def input_thread():
         message = input("Enter message to send: ")
         broadcast_message(message)
 
-# Start servers on both ports
+
 server_thread1 = threading.Thread(target=start_server, args=(PORT1,))
 server_thread2 = threading.Thread(target=start_server, args=(PORT2,))
 input_thread = threading.Thread(target=input_thread)
