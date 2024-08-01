@@ -1,7 +1,7 @@
 import socket
 import threading
 
-HOST = '192.168.1.10'  # Use ifconfig to determine IP address
+HOST = '192.168.150.10'  # Use ifconfig to determine IP address
 PORT1 = 12345          # First port number
 PORT2 = 54321          # Second port number
 
